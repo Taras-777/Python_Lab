@@ -26,3 +26,6 @@ class Camera:
 
 out = Camera("Canon ", 128, 15, 12, "Black", "Good")
 print(out.__str__())
+
+
+
