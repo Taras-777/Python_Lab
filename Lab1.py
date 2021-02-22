@@ -24,12 +24,21 @@ class Camera:
 
 
 def main():
+    Camera.camera
     canon = Camera("Canon", 128, 15, 12, "Black", "Good")
     sony = Camera("SONY", 256, 18, 7, "Gold", "Good")
     xioami = Camera("XIAOMI", 64, 13, 8, "Green", "BAD")
 
     print(canon.__str__(),"\n","\n",sony.__str__(),"\n","\n",xioami.__str__())
-
+    print(Camera.camera)
+Camera.static()
 
 if __name__ == '__main__':
     main()
+
+
+for i in range(101):
+    if i % 7 == 0:
+        print(i)
+
+
