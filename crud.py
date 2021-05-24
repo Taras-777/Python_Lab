@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
 
+from marshmallow import ValidationError
+
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://myuser:****@localhost:3306/studentdb'
@@ -38,18 +40,14 @@ users_schema = UserSchema(many=True)
 
 @app.route("/user", methods=["POST"])
 def add_user():
-    price = request.json['price']
-    brand = request.json['brand']
-    origin_country = request.json['origin_country']
-    category = request.json['category']
-    producer = request.json['producer']
-
-    new_user = User(price, brand, origin_country, category, producer)
-
-    db.session.add(new_user)
+    try:
+        info_about_class = UserSchema().load(request.json)
+        user = User(**info_about_class)
+    except ValidationError:
+        abort(400)
+    db.session.add(user)
     db.session.commit()
-
-    return jsonify(new_user)
+    return user_schema.jsonify(user)
 
 
 @app.route("/user", methods=["GET"])
@@ -64,6 +62,8 @@ def get_user():
 @app.route("/user/<id>", methods=["GET"])
 def user_detail(id):
     user = User.query.get(id)
+    if not user:
+        abort(404)
     return user_schema.jsonify(user)
 
 
@@ -100,3 +100,4 @@ def user_delete(id):
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
+
