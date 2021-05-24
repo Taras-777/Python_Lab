@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -48,8 +48,6 @@ def add_user():
 
     db.session.add(new_user)
     db.session.commit()
-    if not new_user:
-        abort(404)
 
     return jsonify(new_user)
 
