@@ -7,7 +7,7 @@ from marshmallow import ValidationError
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://myuser:****@localhost:3306/studentdb'
+app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql+mysqlconnector://myuser:****@localhost:3306/studentdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
